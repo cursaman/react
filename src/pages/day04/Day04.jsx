@@ -1,6 +1,6 @@
 import ResponEX from "./components/ResponEX";
 
-function Day03() {
+function Day04() {
   return (
     <div>
       <ResponEX />
@@ -8,4 +8,4 @@ function Day03() {
   );
 }
 
-export default Day03;
+export default Day04;
