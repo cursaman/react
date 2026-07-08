@@ -8,10 +8,12 @@ import "./style/index.css";
 //import Day02 from './pages/day02/Day02.jsx';
 //import Day03 from './pages/day03/Day03.jsx';
 //import Day04 from './pages/day04/Day04.jsx';
-import Day05 from './pages/day05/Day05.jsx';
+//import Day05 from './pages/day05/Day05.jsx';
+//import Day06 from './pages/day06/Day06.jsx';
+import Day07 from './pages/day07/Day07.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Day05 /> 
+    <Day07 /> 
   </StrictMode>,
 )

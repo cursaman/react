@@ -1,0 +1,1962 @@
+/* =========================================================
+       01. Reset / Common
+       - 전체 기본 여백 제거
+       - 자주 쓰는 색상은 변수로 관리
+    ========================================================= */
+    :root {
+      --main-color: #1f3b2d;
+      --point-color: #c8a96a;
+      --sub-point-color: #8a6f3d;
+      --text-color: #222;
+      --gray-color: #666;
+      --light-bg: #f7f5ef;
+      --white-color: #fff;
+      --footer-bg: #111b15;
+      --section-radius: 15px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Pretendard", "Noto Sans KR", sans-serif;
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .inner {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 섹션 공통 여백 */
+    .section-padding {
+      padding: 140px 0;
+    }
+
+    /* 밝은 베이지 배경 */
+    .bg-light {
+      background: var(--light-bg);
+    }
+
+    /* =========================================================
+       02. Section Title
+       - COURSE / FACILITIES / GALLERY 등 반복되는 제목 스타일
+    ========================================================= */
+    .section-title {
+      margin-bottom: 60px;
+    }
+
+    .section-title p {
+      font-size: 14px;
+      letter-spacing: 4px;
+      color: var(--sub-point-color);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .section-title h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .section-title span {
+      font-size: 18px;
+      color: var(--gray-color);
+    }
+
+    /* =========================================================
+       03. Header
+       - 상단 고정 메뉴
+       - 추후 JS로 스크롤 시 배경 변경 가능
+    ========================================================= */
+    .header {
+      position: fixed; /* Sticky Header: 스크롤해도 상단에 고정 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      z-index: 1000;
+      color: var(--white-color);
+      transition: background 0.3s, box-shadow 0.3s, height 0.3s;
+    }
+
+    /* Scroll 시 JS로 .scrolled 클래스가 붙으면 헤더 배경 변경 */
+    .header.scrolled {
+      height: 72px;
+      background: rgba(31, 59, 45, 0.95);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      position: relative;
+      z-index: 1002;
+    }
+
+    .logo a {
+      display: block;
+    }
+
+    .logo img {
+      width: 170px;
+      height: auto;
+      display: block;
+    }
+
+    .nav {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav a {
+      font-size: 15px;
+      transition: color 0.3s;
+    }
+
+    .nav a:hover {
+      color: var(--point-color);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1002;
+    }
+
+    .reservation-btn,
+    .hero-btn,
+    .btn-wrap a {
+      display: inline-block;
+      border: 1px solid currentColor;
+      background: transparent;
+      transition: 0.3s;
+    }
+
+    .reservation-btn {
+      padding: 12px 24px;
+      color: var(--white-color);
+    }
+
+    .reservation-btn:hover,
+    .hero-btn:hover,
+    .btn-wrap a:hover {
+      background: var(--white-color);
+      color: var(--main-color);
+    }
+
+    /* 햄버거 버튼: PC에서는 숨김, 모바일에서만 노출 */
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: transparent;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .menu-btn span {
+      position: absolute;
+      left: 50%;
+      width: 18px;
+      height: 2px;
+      background: var(--white-color);
+      transform: translateX(-50%);
+      transition: 0.3s;
+    }
+
+    .menu-btn span:nth-child(1) { top: 14px; }
+    .menu-btn span:nth-child(2) { top: 20px; }
+    .menu-btn span:nth-child(3) { top: 26px; }
+
+    /* 메뉴가 열렸을 때 X 모양으로 변경 */
+    .menu-btn.active span:nth-child(1) {
+      top: 20px;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-btn.active span:nth-child(3) {
+      top: 20px;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    /* Mobile Drawer: 모바일 전체 메뉴 */
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 82%;
+      max-width: 360px;
+      height: 100vh;
+      z-index: 1001;
+      background: var(--main-color);
+      color: var(--white-color);
+      padding: 110px 32px 40px;
+      transition: right 0.35s ease;
+    }
+
+    .mobile-drawer.active {
+      right: 0;
+    }
+
+    .mobile-drawer nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .mobile-drawer a {
+      font-size: 20px;
+      font-weight: 600;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* 모바일 드로어 예약 버튼: 일반 메뉴 링크와 분리해서 깨짐 방지 */
+    .drawer-reservation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 54px;
+      margin-top: 36px;
+      padding: 0 18px;
+      border: 1px solid var(--point-color);
+      border-bottom: 1px solid var(--point-color);
+      border-radius: 999px;
+      color: var(--point-color);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+
+    .drawer-reservation:hover {
+      background: var(--point-color);
+      color: var(--main-color);
+    }
+
+    /* Drawer가 열렸을 때 뒤쪽 화면을 어둡게 처리 */
+    .drawer-dim {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .drawer-dim.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    /* =========================================================
+       04. Hero Swiper
+       - 8장 이미지가 3초 간격으로 자동 전환
+       - fade 효과로 프리미엄 골프장 분위기 연출
+    ========================================================= */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-swiper .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.42);
+      pointer-events: none;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      height: 100%;
+      color: var(--white-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .hero-text h2 {
+      font-size: 64px;
+      line-height: 1.25;
+      margin-bottom: 28px;
+    }
+
+    .hero-meta {
+      position: relative;
+      display: inline-block;
+      width: fit-content;
+      padding-top: 24px;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .hero-meta::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 72px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .hero-control {
+      position: absolute;
+      left: 50%;
+      bottom: 42px;
+      transform: translateX(-50%);
+      z-index: 4;
+      width: 90%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #fff;
+    }
+
+    .hero-pagination {
+      position: static;
+      width: auto;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .hero-progress {
+      position: relative;
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.35);
+      overflow: hidden;
+    }
+
+    .hero-progress span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--point-color);
+    }
+
+    /* =========================================================
+       05. Card Common
+       - 코스 카드 / 조합 카드에서 중복되는 CSS 통합
+    ========================================================= */
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .image-card {
+      background: var(--white-color);
+      overflow: hidden;
+    }
+
+    .image-card img {
+      height: 320px;
+      object-fit: cover;
+      transition: 0.5s;
+    }
+
+    .image-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .image-card-content {
+      padding: 30px;
+    }
+
+    .image-card-content p {
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--sub-point-color);
+      margin-bottom: 12px;
+    }
+
+    .image-card-content h3 {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .image-card-content span {
+      color: var(--gray-color);
+      line-height: 1.7;
+    }
+
+    .course .image-card img {
+      height: 360px;
+    }
+
+    .combination .image-card img {
+      height: 300px;
+    }
+
+    /* =========================================================
+       06. Club Facilities
+       - 클럽하우스 / 레스토랑 / 하프웨이 하우스
+    ========================================================= */
+    .club-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .club-card img {
+      height: 320px;
+      object-fit: cover;
+      margin-bottom: 24px;
+      transition: 0.5s;
+    }
+
+    .club-card:hover img {
+      transform: translateY(-6px);
+    }
+
+    .club-card h3 {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+
+    .club-card p {
+      color: var(--gray-color);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       07. Reservation
+       - 예약 유도 CTA 섹션
+    ========================================================= */
+    .reservation {
+      position: relative;
+      height: 600px;
+      background: url("https://images.unsplash.com/photo-1709525617237-778500c895a8?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--white-color);
+    }
+
+    .reservation::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .reservation-content {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .reservation-content p {
+      font-size: 14px;
+      letter-spacing: 4px;
+      margin-bottom: 18px;
+    }
+
+    .reservation-content h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .reservation-content span {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+    }
+
+    .btn-wrap {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn-wrap a {
+      padding: 16px 36px;
+    }
+
+    .reservation-card-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 44px auto 0;
+    }
+
+    .reservation-card {
+      padding: 28px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      color: var(--white-color);
+      text-align: left;
+      transition: 0.35s;
+    }
+
+    .reservation-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .reservation-card strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 20px;
+      color: var(--point-color);
+    }
+
+    .reservation-card span {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    /* =========================================================
+       08. Stats
+       - 숫자로 보여주는 정보 영역
+    ========================================================= */
+
+    /* ========================================
+       Brand Film Section
+       - 메인 중간에 들어가는 시네마틱 영상 섹션
+       - 광고 느낌보다 브랜드 홍보 영상처럼 보이도록 구성
+    ======================================== */
+    .brand-film {
+      position: relative;
+      height: 78vh;
+      min-height: 560px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .brand-film video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.04);
+    }
+
+    .brand-film::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.28) 0%,
+        rgba(0, 0, 0, 0.42) 55%,
+        rgba(0, 0, 0, 0.62) 100%
+      );
+      z-index: 1;
+    }
+
+    .film-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 0 20px;
+    }
+
+    .film-content .eyebrow {
+      font-size: 14px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px;
+    }
+
+    .film-content h2 {
+      font-family: var(--serif-font);
+      font-size: clamp(42px, 6vw, 86px);
+      font-weight: 500;
+      line-height: 1.08;
+      margin-bottom: 26px;
+    }
+
+    .film-content .desc {
+      max-width: 620px;
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .film-bottom-copy {
+      position: absolute;
+      left: 50%;
+      bottom: 48px;
+      z-index: 2;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .film-bottom-copy::before,
+    .film-bottom-copy::after {
+      content: "";
+      width: 56px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .stats {
+      padding: 120px 0;
+      background: var(--main-color);
+      color: var(--white-color);
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+    }
+
+    .stat-box strong {
+      font-size: 64px;
+      font-weight: 600;
+      color: var(--point-color);
+    }
+
+    .stat-box p {
+      margin-top: 12px;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    /* =========================================================
+       09. Gallery
+       - 대표 이미지 + 스토리 카드 + 오버레이 갤러리
+    ========================================================= */
+    .gallery {
+      background: var(--white-color);
+    }
+
+    .gallery-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .gallery-head .section-title {
+      margin-bottom: 0;
+    }
+
+    .gallery-desc {
+      max-width: 420px;
+      color: var(--gray-color);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .gallery-layout {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+    }
+
+    .gallery-main {
+      position: relative;
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    .gallery-side {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .gallery-side .gallery-item:nth-child(1),
+    .gallery-side .gallery-item:nth-child(4) {
+      min-height: 298px;
+    }
+
+    .gallery-side .gallery-item:nth-child(2) {
+      min-height: 360px;
+    }
+
+    .gallery-side .gallery-item:nth-child(3) {
+      min-height: 236px;
+      margin-top: -62px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s ease;
+    }
+
+    .gallery-item::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.08), transparent);
+      opacity: 0.88;
+      transition: 0.4s;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 2;
+      color: var(--white-color);
+      transform: translateY(10px);
+      transition: 0.4s;
+    }
+
+    .gallery-caption small {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--point-color);
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .gallery-caption h3 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .gallery-caption p {
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .gallery-main .gallery-caption h3 {
+      font-size: 42px;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery-item:hover::after {
+      opacity: 1;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    .gallery-banner {
+      margin-top: 24px;
+      padding: 34px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      background: var(--main-color);
+      color: var(--white-color);
+    }
+
+    .gallery-banner strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 24px;
+      color: var(--point-color);
+    }
+
+    .gallery-banner p {
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.7;
+    }
+
+    .gallery-banner a {
+      flex-shrink: 0;
+      padding: 14px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transition: 0.3s;
+    }
+
+    .gallery-banner a:hover {
+      background: var(--white-color);
+      color: var(--main-color);
+    }
+
+
+
+    /* =========================================================
+       Section Radius
+       - 메인 콘텐츠 섹션을 카드형처럼 부드럽게 처리
+       - Hero/Header/Footer는 전체 화면감을 위해 제외
+    ========================================================= */
+    .course,
+    .combination,
+    .club,
+    .brand-film,
+    .reservation,
+    .stats,
+    .gallery,
+    .location {
+      width: calc(100% - 40px);
+      max-width: 1800px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: var(--section-radius);
+      overflow: hidden;
+    }
+
+    .image-card,
+    .club-card img,
+    .reservation-card,
+    .gallery-item,
+    .gallery-banner,
+    .map-box,
+    .location-info {
+      border-radius: var(--section-radius);
+      overflow: hidden;
+    }
+
+    .btn-wrap a,
+    .floating-reservation,
+    .top-btn {
+      border-radius: 999px;
+    }
+
+    @media (max-width: 768px) {
+      .course,
+      .combination,
+      .club,
+      .brand-film,
+      .reservation,
+      .stats,
+      .gallery,
+      .location {
+        width: calc(100% - 24px);
+      }
+    }
+
+    /* =========================================================
+       10. Location
+       - 오시는 길 / 교통 안내 영역
+    ========================================================= */
+    .location {
+      background: var(--light-bg);
+    }
+
+    .location-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: stretch;
+    }
+
+    .map-box {
+      min-height: 420px;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .naver-map-preview {
+      position: absolute;
+      inset: 0;
+      display: block;
+      overflow: hidden;
+      color: inherit;
+      background:
+        linear-gradient(135deg, rgba(3, 199, 90, 0.16), rgba(255, 255, 255, 0.08)),
+        linear-gradient(90deg, #dfeee4 0 22%, #edf5ef 22% 24%, #dfeee4 24% 47%, #edf5ef 47% 49%, #dfeee4 49% 100%);
+    }
+
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.9;
+      background:
+        linear-gradient(25deg, transparent 0 41%, rgba(255, 255, 255, 0.85) 41% 43%, transparent 43% 100%),
+        linear-gradient(145deg, transparent 0 52%, rgba(255, 255, 255, 0.85) 52% 54%, transparent 54% 100%),
+        linear-gradient(90deg, transparent 0 32%, rgba(255, 255, 255, 0.9) 32% 34%, transparent 34% 100%),
+        linear-gradient(0deg, transparent 0 34%, rgba(255, 255, 255, 0.9) 34% 36%, transparent 36% 100%);
+    }
+
+    .map-grid::before,
+    .map-grid::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(31, 59, 45, 0.12);
+    }
+
+    .map-grid::before {
+      left: 8%;
+      top: 12%;
+      width: 240px;
+      height: 120px;
+      transform: rotate(-16deg);
+    }
+
+    .map-grid::after {
+      right: 8%;
+      bottom: 12%;
+      width: 300px;
+      height: 150px;
+      transform: rotate(18deg);
+    }
+
+    .map-marker {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      width: 42px;
+      height: 42px;
+      transform: translate(-50%, -100%);
+      border-radius: 50% 50% 50% 0;
+      background: #03c75a;
+      transform-origin: bottom center;
+      rotate: -45deg;
+      box-shadow: 0 12px 30px rgba(3, 199, 90, 0.45);
+    }
+
+    .map-marker span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #fff;
+      transform: translate(-50%, -50%);
+    }
+
+    .map-place-card {
+      position: absolute;
+      left: 50%;
+      top: calc(46% + 14px);
+      transform: translateX(-50%);
+      min-width: 260px;
+      padding: 18px 22px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+      text-align: center;
+    }
+
+    .map-place-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--main-color);
+      font-size: 20px;
+    }
+
+    .map-place-card span {
+      color: #555;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .naver-badge {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: #03c75a;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .naver-map-link {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      z-index: 2;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--main-color);
+      color: var(--white-color);
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .map-box {
+      position: relative;
+    }
+
+
+    .location-info {
+      padding: 42px;
+      background: var(--white-color);
+    }
+
+    .location-info h3 {
+      margin-bottom: 18px;
+      font-size: 28px;
+    }
+
+    .location-info > p {
+      margin-bottom: 30px;
+      color: var(--gray-color);
+      line-height: 1.7;
+    }
+
+    .traffic-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .traffic-item {
+      padding-bottom: 22px;
+      border-bottom: 1px solid #e5e1d8;
+    }
+
+    .traffic-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .traffic-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--main-color);
+      font-size: 18px;
+    }
+
+    .traffic-item span {
+      color: var(--gray-color);
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       11. Footer
+       - 사이트 하단 정보 영역
+    ========================================================= */
+    .footer {
+      background: var(--footer-bg);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 70px 0 40px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .footer-brand h2 {
+      color: var(--white-color);
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand p {
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    .footer-menu {
+      display: flex;
+      gap: 60px;
+    }
+
+    .footer-menu h3 {
+      color: var(--white-color);
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .footer-menu a,
+    .footer-menu span {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 28px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* =========================================================
+       11. Responsive
+       - 태블릿 / 모바일 반응형
+    ========================================================= */
+    @media (max-width: 1024px) {
+      .nav {
+        gap: 24px;
+      }
+
+      .hero-text h2 {
+        font-size: 52px;
+      }
+
+      .card-list,
+      .club-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section-padding {
+        padding: 80px 0;
+      }
+
+      .header {
+        height: 64px;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .header-actions .reservation-btn {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .mobile-drawer {
+        width: min(86vw, 340px);
+        padding: 96px 24px 34px;
+      }
+
+      .mobile-drawer a {
+        font-size: 18px;
+      }
+
+      .drawer-reservation {
+        min-height: 50px;
+        font-size: 15px;
+      }
+
+      .hero-text h2 {
+        font-size: 36px;
+      }
+
+      .hero-text p {
+        font-size: 14px;
+      }
+
+      .hero-meta {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+
+      .section-title {
+        margin-bottom: 40px;
+      }
+
+      .section-title h2,
+      .reservation-content h2 {
+        font-size: 30px;
+      }
+
+      .section-title span {
+        font-size: 15px;
+      }
+
+      .card-list,
+      .club-list,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course .image-card img,
+      .combination .image-card img,
+      .club-card img {
+        height: 240px;
+      }
+
+      .image-card-content {
+        padding: 24px;
+      }
+
+      .reservation {
+        height: auto;
+        padding: 90px 0;
+      }
+
+      .reservation-card-list {
+        grid-template-columns: 1fr;
+      }
+
+      .location-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .map-box {
+        min-height: 320px;
+      }
+
+      .location-info {
+        padding: 30px 24px;
+      }
+
+      .btn-wrap {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px 0;
+      }
+
+      .stat-box strong {
+        font-size: 44px;
+      }
+
+      .stat-box p {
+        font-size: 15px;
+      }
+
+      .gallery-grid {
+        grid-auto-rows: 240px;
+      }
+
+      .gallery-item.big,
+      .gallery-item.wide {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+
+      .footer-menu {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+
+    /* =========================================================
+       12. Motion / Loading / Top Button
+       - GSAP ScrollTrigger와 함께 사용하는 애니메이션 기본값
+    ========================================================= */
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--main-color);
+      color: var(--white-color);
+      transition: opacity 0.6s, visibility 0.6s;
+    }
+
+    .loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-logo {
+      text-align: center;
+      letter-spacing: 3px;
+    }
+
+    .loader-logo strong {
+      display: block;
+      font-size: 34px;
+      color: var(--point-color);
+      margin-bottom: 10px;
+    }
+
+    .loader-logo span {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    /* Hero 텍스트 등장 전 초기 상태 */
+    .hero-text > * {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* ScrollTrigger Fade In 대상 */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    /* 카드 Hover 확대 효과 */
+    .image-card,
+    .club-card,
+    .reservation-card,
+    .gallery-item {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    .image-card:hover,
+    .club-card:hover,
+    .reservation-card:hover,
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.14);
+    }
+
+
+    /* Floating 예약 버튼 */
+    .floating-reservation {
+      position: fixed;
+      right: 28px;
+      bottom: 92px;
+      min-width: 118px;
+      height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      z-index: 901;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--point-color);
+      color: var(--main-color);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+      transition: 0.3s;
+    }
+
+    .floating-reservation:hover {
+      transform: translateY(-4px);
+      background: var(--main-color);
+      color: var(--white-color);
+    }
+
+    /* Top 버튼 */
+    .top-btn {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 50%;
+      z-index: 900;
+      background: var(--main-color);
+      color: var(--white-color);
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: 0.3s;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .top-btn.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .top-btn:hover {
+      background: var(--point-color);
+      color: var(--main-color);
+    }
+
+    @media (max-width: 768px) {
+
+      .floating-reservation {
+        right: 20px;
+        bottom: 86px;
+        min-width: 104px;
+        height: 44px;
+        padding: 0 18px;
+        font-size: 13px;
+      }
+
+      .top-btn {
+        right: 18px;
+        bottom: 18px;
+        width: 46px;
+        height: 46px;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+      .logo img {
+        width: 135px;
+      }
+
+      .hero-control {
+        bottom: 28px;
+      }
+    }
+
+
+    /* Gallery Responsive Override */
+    @media (max-width: 1024px) {
+      .gallery-head,
+      .gallery-layout,
+      .gallery-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-head {
+        display: block;
+      }
+
+      .gallery-desc {
+        margin-top: 24px;
+        max-width: 100%;
+      }
+
+      .gallery-main {
+        min-height: 520px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gallery-layout {
+        display: block;
+      }
+
+      .gallery-main {
+        min-height: 430px;
+        margin-bottom: 18px;
+      }
+
+      .gallery-side {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .gallery-side .gallery-item,
+      .gallery-side .gallery-item:nth-child(1),
+      .gallery-side .gallery-item:nth-child(2),
+      .gallery-side .gallery-item:nth-child(3),
+      .gallery-side .gallery-item:nth-child(4) {
+        min-height: 260px;
+        margin-top: 0;
+      }
+
+      .gallery-main .gallery-caption h3 {
+        font-size: 30px;
+      }
+
+      .gallery-caption {
+        left: 22px;
+        right: 22px;
+        bottom: 22px;
+      }
+
+      .gallery-caption h3 {
+        font-size: 22px;
+      }
+
+      .gallery-banner {
+        display: block;
+        padding: 28px 24px;
+      }
+
+      .gallery-banner a {
+        display: inline-block;
+        margin-top: 22px;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+      .brand-film {
+        height: 62vh;
+        min-height: 460px;
+      }
+
+      .film-content .eyebrow {
+        font-size: 12px;
+        letter-spacing: 3px;
+      }
+
+      .film-content .desc {
+        font-size: 15px;
+      }
+
+      .film-bottom-copy {
+        bottom: 30px;
+        font-size: 11px;
+        gap: 10px;
+      }
+
+      .film-bottom-copy::before,
+      .film-bottom-copy::after {
+        width: 32px;
+      }
+    }
+
+  
+
+    @media (max-width: 768px) {
+      .map-place-card {
+        min-width: 220px;
+        padding: 16px 18px;
+      }
+
+      .map-place-card strong {
+        font-size: 18px;
+      }
+
+      .naver-badge {
+        left: 14px;
+        top: 14px;
+      }
+
+      .naver-map-link {
+        right: 14px;
+        bottom: 14px;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+    }
+
+/* =========================================================
+   Sub Pages
+   - 클럽소개/코스소개/시설안내/예약안내/이용안내 공통
+   - 메인 디자인은 유지하고 서브페이지 구조만 추가
+========================================================= */
+.nav a.active {
+  color: var(--point-color);
+}
+
+.sub-page .header:not(.scrolled) {
+  background: rgba(31, 59, 45, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.page-hero {
+  position: relative;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  margin: 0 24px;
+  border-radius: var(--section-radius);
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.42);
+}
+
+.page-hero-text {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  padding-top: 80px;
+}
+
+.page-hero-text p {
+  margin-bottom: 18px;
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: var(--point-color);
+}
+
+.page-hero-text h2 {
+  margin-bottom: 18px;
+  font-size: 54px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+.page-hero-text span {
+  font-size: 18px;
+  opacity: .86;
+}
+
+.sub-tab {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: rgba(255,255,255,.92);
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  backdrop-filter: blur(10px);
+}
+
+.sub-tab-inner {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.sub-tab a {
+  display: block;
+  padding: 22px 24px;
+  font-size: 15px;
+  color: #444;
+  transition: color .3s, background .3s;
+}
+
+.sub-tab a:hover {
+  color: var(--main-color);
+  background: var(--light-bg);
+}
+
+.sub-section {
+  scroll-margin-top: 150px;
+}
+
+.split-layout {
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.split-layout.reverse {
+  grid-template-columns: .92fr 1.08fr;
+}
+
+.split-img {
+  overflow: hidden;
+  border-radius: var(--section-radius);
+  box-shadow: 0 18px 42px rgba(0,0,0,.12);
+}
+
+.split-img img {
+  height: 520px;
+  object-fit: cover;
+  transition: transform .5s;
+}
+
+.split-img:hover img {
+  transform: scale(1.04);
+}
+
+.eyebrow {
+  margin-bottom: 18px;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: var(--sub-point-color);
+  text-transform: uppercase;
+}
+
+.split-text h3,
+.simple-sub-content h3 {
+  margin-bottom: 26px;
+  font-size: 42px;
+  line-height: 1.32;
+  font-weight: 500;
+}
+
+.split-text p,
+.simple-sub-content p {
+  margin-bottom: 18px;
+  color: var(--gray-color);
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.center-title {
+  text-align: center;
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.timeline-item {
+  padding: 34px 28px;
+  min-height: 180px;
+  background: #fff;
+  border-radius: var(--section-radius);
+  box-shadow: 0 14px 36px rgba(0,0,0,.08);
+}
+
+.timeline-item strong {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 34px;
+  color: var(--point-color);
+}
+
+.timeline-item p {
+  color: var(--gray-color);
+  line-height: 1.7;
+}
+
+.why-grid,
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.why-grid article,
+.value-grid article {
+  padding: 34px 28px;
+  min-height: 230px;
+  background: #fff;
+  border-radius: var(--section-radius);
+  box-shadow: 0 14px 36px rgba(0,0,0,.08);
+  transition: transform .35s, box-shadow .35s;
+}
+
+.why-grid article:hover,
+.value-grid article:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0,0,0,.12);
+}
+
+.why-grid strong {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 56px;
+  color: var(--point-color);
+}
+
+.why-grid h3,
+.value-grid h3 {
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.why-grid p,
+.value-grid p {
+  color: var(--gray-color);
+  line-height: 1.75;
+}
+
+.location .location-wrap {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 54px;
+  align-items: center;
+}
+
+.map-image {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--section-radius);
+  box-shadow: 0 18px 42px rgba(0,0,0,.14);
+}
+
+.map-image img {
+  transition: transform .5s;
+}
+
+.map-image:hover img {
+  transform: scale(1.03);
+}
+
+.location-btn {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 15px 30px;
+  border-radius: 999px;
+  background: var(--main-color);
+  color: #fff;
+  transition: background .3s, transform .3s;
+}
+
+.location-btn:hover {
+  background: #183226;
+  transform: translateY(-3px);
+}
+
+.simple-sub-content {
+  max-width: 900px;
+}
+
+.simple-sub-content h3 {
+  font-size: 44px;
+}
+
+@media (max-width: 1024px) {
+  .page-hero {
+    height: 400px;
+    margin: 0 16px;
+  }
+
+  .page-hero-text h2 {
+    font-size: 42px;
+  }
+
+  .split-layout,
+  .split-layout.reverse,
+  .location .location-wrap {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .timeline,
+  .why-grid,
+  .value-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    height: 340px;
+    margin: 0 12px;
+  }
+
+  .page-hero-text h2 {
+    font-size: 32px;
+  }
+
+  .page-hero-text span {
+    font-size: 15px;
+  }
+
+  .sub-tab {
+    top: 64px;
+  }
+
+  .sub-tab-inner {
+    justify-content: flex-start;
+  }
+
+  .sub-tab a {
+    padding: 17px 18px;
+    font-size: 14px;
+  }
+
+  .split-img img {
+    height: 330px;
+  }
+
+  .split-text h3,
+  .simple-sub-content h3 {
+    font-size: 30px;
+  }
+
+  .timeline,
+  .why-grid,
+  .value-grid {
+    grid-template-columns: 1fr;
+  }
+}
